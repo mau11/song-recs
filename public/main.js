@@ -1,65 +1,44 @@
-var thumbUp = document.getElementsByClassName("fa-thumbs-up");
-var thumbDown = document.getElementsByClassName("fa-thumbs-down");
-var trash = document.getElementsByClassName("fa-trash");
+const thumbUp = document.getElementsByClassName("fa-thumbs-up");
+const thumbDown = document.getElementsByClassName("fa-thumbs-down");
+const trash = document.getElementsByClassName("fa-trash");
 
-Array.from(thumbUp).forEach(function (element) {
-  element.addEventListener("click", function () {
-    const name = this.parentNode.parentNode.childNodes[1].innerText;
-    const msg = this.parentNode.parentNode.childNodes[3].innerText;
-    const thumbUp = parseFloat(
-      this.parentNode.parentNode.childNodes[5].innerText
-    );
-    fetch("messages", {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: name,
-        msg: msg,
-        thumbUp: thumbUp,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        window.location.reload(true);
-      });
-  });
+Array.from(thumbUp).forEach((element) => {
+  element.onclick = (e) => updateThumb(e, "thumbUp");
 });
 
-Array.from(thumbDown).forEach(function (element) {
-  element.addEventListener("click", function () {
-    const name = this.parentNode.parentNode.childNodes[1].innerText;
-    const msg = this.parentNode.parentNode.childNodes[3].innerText;
-    const thumbDown = parseFloat(
-      this.parentNode.parentNode.childNodes[5].innerText
-    );
-    fetch("messages", {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: name,
-        msg: msg,
-        thumbDown: thumbDown,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        window.location.reload(true);
-      });
-  });
+Array.from(thumbDown).forEach((element) => {
+  element.onclick = (e) => updateThumb(e, "thumbDown");
 });
 
-Array.from(trash).forEach(function (element) {
-  element.addEventListener("click", function () {
-    const name = this.parentNode.parentNode.childNodes[1].innerText;
-    const msg = this.parentNode.parentNode.childNodes[3].innerText;
+function updateThumb(e, thumb) {
+  const name = e.target.parentNode.parentNode.childNodes[1].innerText;
+  const msg = e.target.parentNode.parentNode.childNodes[3].innerText;
+  const thumbValue = parseFloat(
+    e.target.parentNode.parentNode.childNodes[5].innerText
+  );
+
+  fetch("messages", {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: name,
+      msg: msg,
+      [thumb]: thumbValue,
+    }),
+  })
+    .then((response) => {
+      if (response.ok) return response.json();
+    })
+    .then(() => window.location.reload(true));
+}
+
+Array.from(trash).forEach((element) => {
+  element.onclick = (e) => {
+    const name = e.target.parentNode.parentNode.childNodes[1].innerText;
+    const msg = e.target.parentNode.parentNode.childNodes[3].innerText;
+
     fetch("messages", {
-      method: "delete",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
@@ -67,8 +46,6 @@ Array.from(trash).forEach(function (element) {
         name: name,
         msg: msg,
       }),
-    }).then(function (response) {
-      window.location.reload();
-    });
-  });
+    }).then(() => window.location.reload());
+  };
 });

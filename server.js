@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const MongoClient = require("mongodb").MongoClient;
 
-var db, collection;
+let db;
 
 const url =
   "mongodb+srv://demo:demo@cluster0-q2ojb.mongodb.net/test?retryWrites=true";
