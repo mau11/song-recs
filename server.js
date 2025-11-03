@@ -1,81 +1,107 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const MongoClient = require("mongodb").MongoClient;
+import dotenv from "dotenv";
+import express from "express";
+import bodyParser from "body-parser";
+import mongoose from "mongoose";
+import { Message } from "./models/message.js";
 
+dotenv.config();
+const app = express();
+
+const PORT = process.env.PORT;
+const DB_URL = process.env.DB_CONNECTION_STRING + "/" + process.env.DB_NAME;
 let db;
 
-const url =
-  "mongodb+srv://demo:demo@cluster0-q2ojb.mongodb.net/test?retryWrites=true";
-const dbName = "demo";
+// connect to DB and start server
+mongoose
+  .connect(DB_URL)
+  .then(() => {
+    console.log("Connected to db");
 
-app.listen(3000, () => {
-  MongoClient.connect(
-    url,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    (error, client) => {
-      if (error) {
-        throw error;
-      }
-      db = client.db(dbName);
-      console.log("Connected to `" + dbName + "`!");
-    }
-  );
-});
+    db = mongoose.connection.db;
+
+    // start server
+    app.listen(PORT, () => {
+      console.log(`Listening at localhost:${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  db.collection("messages")
-    .find()
-    .toArray((err, result) => {
-      if (err) return console.log(err);
-      res.render("index.ejs", { messages: result });
-    });
+app.get("/", async (req, res) => {
+  try {
+    const messages = await Message.find();
+
+    res.render("index.ejs", { messages });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
-app.post("/messages", (req, res) => {
-  db.collection("messages").insertOne(
-    { name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown: 0 },
-    (err, result) => {
-      if (err) return console.log(err);
-      console.log("saved to database");
-      res.redirect("/");
-    }
-  );
+app.post("/messages", async (req, res) => {
+  try {
+    const data = {
+      username: req.body.username,
+      message: req.body.message,
+      thumbUp: 0,
+    };
+
+    const newMessage = new Message(data);
+    await newMessage.save();
+    res.redirect("/");
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
 });
 
-app.put("/messages", (req, res) => {
-  const isUp = Object.keys(req.body).includes("thumbUp");
-  const thumbValue = isUp ? req.body.thumbUp + 1 : req.body.thumbDown - 1;
+app.put("/messages", async (req, res) => {
+  try {
+    const { username, message, thumbUp, thumbDown } = req.body;
 
-  db.collection("messages").findOneAndUpdate(
-    { name: req.body.name, msg: req.body.msg },
-    {
-      $set: {
-        thumbUp: thumbValue,
+    const isUp = Object.keys(req.body).includes("thumbUp");
+    const thumbValue = isUp ? thumbUp + 1 : thumbDown - 1;
+
+    const updated = await Message.findOneAndUpdate(
+      { username, message },
+      {
+        $set: {
+          thumbUp: thumbValue,
+        },
       },
-    },
-    {
-      sort: { _id: -1 },
-      upsert: true,
-    },
-    (err, result) => {
-      if (err) return res.send(err);
-      res.send(result);
+      { new: true, upsert: false }
+    );
+
+    if (!updated) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Message not found" });
     }
-  );
+
+    res
+      .status(200)
+      .json({ success: true, message: "Updated successfully", data: updated });
+  } catch (err) {
+    console.error("PUT /messages error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
-app.delete("/messages", (req, res) => {
-  db.collection("messages").findOneAndDelete(
-    { name: req.body.name, msg: req.body.msg },
-    (err, result) => {
-      if (err) return res.send(500, err);
-      res.send("Message deleted!");
-    }
-  );
+app.delete("/messages", async (req, res) => {
+  try {
+    await db.collection("messages").findOneAndDelete({
+      username: req.body.username,
+      message: req.body.message,
+    });
+
+    res.status(200).json({ success: true, message: "Message deleted!" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error deleting" });
+  }
 });

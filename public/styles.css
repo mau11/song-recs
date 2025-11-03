@@ -1,3 +1,10 @@
 h3 {
   margin-top: 40px;
 }
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  list-style: none;
+}

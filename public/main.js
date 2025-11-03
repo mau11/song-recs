@@ -11,40 +11,41 @@ Array.from(thumbDown).forEach((element) => {
 });
 
 function updateThumb(e, thumb) {
-  const name = e.target.parentNode.parentNode.childNodes[1].innerText;
-  const msg = e.target.parentNode.parentNode.childNodes[3].innerText;
+  const username = e.target.parentNode.parentNode.childNodes[1].innerText;
+  const message = e.target.parentNode.parentNode.childNodes[3].innerText;
   const thumbValue = parseFloat(
     e.target.parentNode.parentNode.childNodes[5].innerText
   );
 
-  fetch("messages", {
+  fetch("/messages", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      name: name,
-      msg: msg,
+      username,
+      message,
       [thumb]: thumbValue,
     }),
   })
     .then((response) => {
-      if (response.ok) return response.json();
+      if (!response.ok) throw new Error("Error with response");
+      return response.json();
     })
-    .then(() => window.location.reload(true));
+    .then(() => window.location.reload());
 }
 
 Array.from(trash).forEach((element) => {
   element.onclick = (e) => {
-    const name = e.target.parentNode.parentNode.childNodes[1].innerText;
-    const msg = e.target.parentNode.parentNode.childNodes[3].innerText;
+    const username = e.target.parentNode.parentNode.childNodes[1].innerText;
+    const message = e.target.parentNode.parentNode.childNodes[3].innerText;
 
-    fetch("messages", {
+    fetch("/messages", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: name,
-        msg: msg,
+        username,
+        message,
       }),
     }).then(() => window.location.reload());
   };
