@@ -8,3 +8,7 @@ h3 {
   gap: 1em;
   list-style: none;
 }
+
+p {
+  margin: 0;
+}

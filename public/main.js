@@ -11,11 +11,13 @@ Array.from(thumbDown).forEach((element) => {
 });
 
 function updateThumb(e, thumb) {
-  const username = e.target.parentNode.parentNode.childNodes[1].innerText;
-  const message = e.target.parentNode.parentNode.childNodes[3].innerText;
-  const thumbValue = parseFloat(
-    e.target.parentNode.parentNode.childNodes[5].innerText
-  );
+  const element = e.target.closest(".message");
+  const ps = element.getElementsByTagName("p");
+
+  const username = ps[0].innerText.trim();
+  const message = ps[1].innerText.trim();
+  const thumbValue =
+    parseFloat(element.querySelector("div span").innerText) || 0;
 
   fetch("/messages", {
     method: "PUT",
@@ -35,8 +37,11 @@ function updateThumb(e, thumb) {
 
 Array.from(trash).forEach((element) => {
   element.onclick = (e) => {
-    const username = e.target.parentNode.parentNode.childNodes[1].innerText;
-    const message = e.target.parentNode.parentNode.childNodes[3].innerText;
+    const messageElement = e.target.closest(".message");
+    const ps = messageElement.getElementsByTagName("p");
+
+    const username = ps[0].innerText.trim();
+    const message = ps[1].innerText.trim();
 
     fetch("/messages", {
       method: "DELETE",
