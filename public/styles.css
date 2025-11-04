@@ -4,9 +4,10 @@ h3 {
 
 .messages {
   display: flex;
-  flex-direction: column;
   gap: 1em;
   list-style: none;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 p {
