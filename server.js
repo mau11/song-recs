@@ -35,7 +35,7 @@ app.use(express.static("public"));
 
 app.get("/", async (req, res) => {
   try {
-    const messages = await Message.find();
+    const messages = await Message.find().sort({ thumbUp: -1 });
 
     res.render("index.ejs", { messages });
   } catch (err) {
