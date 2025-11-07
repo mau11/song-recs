@@ -35,19 +35,25 @@ function updateThumb(e, thumb) {
 
 Array.from(trash).forEach((element) => {
   element.onclick = (e) => {
-    const songElement = e.target.closest(".thumb-count");
-    const username = songElement.dataset.username;
-    const song = songElement.dataset.song;
+    const confirmDelete = confirm(
+      "Are you sure you'd like to delete this rec?"
+    );
 
-    fetch("/songs", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username,
-        song,
-      }),
-    }).then((res) => window.location.reload());
+    if (confirmDelete) {
+      const songElement = e.target.closest(".thumb-count");
+      const username = songElement.dataset.username;
+      const song = songElement.dataset.song;
+
+      fetch("/songs", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          song,
+        }),
+      }).then((res) => window.location.reload());
+    }
   };
 });

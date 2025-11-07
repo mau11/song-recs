@@ -92,8 +92,8 @@ app.get("/user/:username", async (req, res) => {
 app.post("/songs", async (req, res) => {
   try {
     const data = {
-      username: req.body.username,
-      song: req.body.song,
+      username: req.body.username.trim(),
+      song: req.body.song.trim(),
       thumbUp: 0,
     };
 

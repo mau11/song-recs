@@ -4,6 +4,7 @@
   --blackOp: rgba(51, 51, 51, 0.7);
   --white: rgba(246, 246, 246, 1);
   --accent: rgba(223, 34, 97, 1);
+  --alert: rgba(200, 0, 0, 1);
   --3d-effect: -webkit-linear-gradient(
     top,
     rgba(0, 0, 0, 0),
@@ -151,6 +152,10 @@ input:focus {
 
   .fa:active {
     transform: scale(0.98);
+  }
+
+  .fa-trash {
+    color: var(--alert);
   }
 }
 
