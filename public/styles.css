@@ -23,9 +23,11 @@
 
 body {
   max-width: 90vw;
+  min-height: 100vh;
   margin: auto;
   color: var(--black);
   background-color: var(--white);
+  background-image: var(--3d-effect);
 }
 
 h1 {
@@ -44,6 +46,11 @@ h1 {
 
 main {
   margin: 2em 0 0;
+}
+
+.user-header {
+  font-weight: 600;
+  margin-bottom: 1em;
 }
 
 form {
@@ -150,7 +157,6 @@ input:focus {
 footer {
   display: flex;
   justify-content: end;
-  background-image: var(--3d-effect);
   margin-left: -10vw;
   width: calc(100% + 15vw);
 
@@ -196,5 +202,10 @@ footer {
     grid-template-columns: 1fr;
     width: calc(100% + 20vw);
     margin-left: -10vw;
+  }
+
+  footer {
+    margin-left: -20vw;
+    width: calc(100% + 30vw);
   }
 }

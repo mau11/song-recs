@@ -70,6 +70,24 @@ app.get("/", async (req, res) => {
   }
 });
 
+// get user songs
+app.get("/user/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const sortBy = { createdAt: -1 }; // newest
+
+    const songs = await Song.find({ username });
+
+    if (songs.length) {
+      res.render("user.ejs", { songs, sortBy, username });
+    } else {
+      res.redirect("/");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 // add songs
 app.post("/songs", async (req, res) => {
   try {
