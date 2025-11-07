@@ -7,7 +7,7 @@ import { Song } from "./models/song.js";
 dotenv.config();
 const app = express();
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 const DB_URL = process.env.DB_CONNECTION_STRING + "/" + process.env.DB_NAME;
 let db;
 

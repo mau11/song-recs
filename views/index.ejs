@@ -13,10 +13,25 @@
     <h3 class="subtext">Add a song recommendation below:</h3>
 
     <form action="/songs" method="POST">
-      <input type="text" placeholder="Enter username" name="username">
-      <input type="text" placeholder="https://youtube.com/..." name="song">
+      <input
+        type="text"
+        placeholder="Enter username"
+        name="username"
+        minlength="2"
+        required
+      />
+      <!-- AI generated pattern validation-->
+      <input
+        type="text"
+        placeholder="https://youtube.com/..."
+        name="song"
+        pattern="https?://(www\.)?(youtube\.com|youtu\.be)/.+"
+        title="Please enter a valid YouTube URL"
+        required
+      />
       <button type="submit">Submit</button>
     </form>
+
 
     <section class="songs">
     <% for(var i=0; i<songs.length; i++) {%>

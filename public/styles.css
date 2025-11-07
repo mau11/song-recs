@@ -72,6 +72,15 @@ form {
     font-size: small;
     font-style: italic;
   }
+
+  .fa:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+
+  .fa:active {
+    transform: scale(0.98);
+  }
 }
 
 input {
