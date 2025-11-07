@@ -11,21 +11,18 @@ Array.from(thumbDown).forEach((element) => {
 });
 
 function updateThumb(e, thumb) {
-  const element = e.target.closest(".message");
-  const ps = element.getElementsByTagName("p");
+  const element = e.target.closest(".thumb-count");
+  const username = element.dataset.username;
+  const song = element.dataset.song;
 
-  const username = ps[0].innerText.trim();
-  const message = element.children[0].dataset.song; // iframe dataset;
+  const thumbValue = parseFloat(element.querySelector("span").innerText) || 0;
 
-  const thumbValue =
-    parseFloat(element.querySelector("div span").innerText) || 0;
-
-  fetch("/messages", {
+  fetch("/songs", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       username,
-      message,
+      song,
       [thumb]: thumbValue,
     }),
   })
@@ -38,21 +35,19 @@ function updateThumb(e, thumb) {
 
 Array.from(trash).forEach((element) => {
   element.onclick = (e) => {
-    const messageElement = e.target.closest(".message");
-    const ps = messageElement.getElementsByTagName("p");
+    const songElement = e.target.closest(".thumb-count");
+    const username = songElement.dataset.username;
+    const song = songElement.dataset.song;
 
-    const username = ps[0].innerText.trim();
-    const message = messageElement.children[0].dataset.song; // iframe dataset;
-
-    fetch("/messages", {
+    fetch("/songs", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         username,
-        message,
+        song,
       }),
-    }).then(() => window.location.reload());
+    }).then((res) => window.location.reload());
   };
 });

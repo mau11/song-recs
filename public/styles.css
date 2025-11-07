@@ -47,7 +47,7 @@ form {
   margin: 2em 0;
 }
 
-.messages {
+.songs {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2em;
@@ -138,7 +138,7 @@ footer {
 }
 
 @media screen and (max-width: 1100px) {
-  .messages {
+  .songs {
     grid-template-columns: 1fr 1fr;
   }
 }
@@ -157,7 +157,7 @@ footer {
     flex-direction: column;
   }
 
-  .messages {
+  .songs {
     grid-template-columns: 1fr;
     width: calc(100% + 20vw);
     margin-left: -10vw;
