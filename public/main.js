@@ -15,7 +15,8 @@ function updateThumb(e, thumb) {
   const ps = element.getElementsByTagName("p");
 
   const username = ps[0].innerText.trim();
-  const message = ps[1].innerText.trim();
+  const message = element.children[0].dataset.song; // iframe dataset;
+
   const thumbValue =
     parseFloat(element.querySelector("div span").innerText) || 0;
 
@@ -41,7 +42,7 @@ Array.from(trash).forEach((element) => {
     const ps = messageElement.getElementsByTagName("p");
 
     const username = ps[0].innerText.trim();
-    const message = ps[1].innerText.trim();
+    const message = messageElement.children[0].dataset.song; // iframe dataset;
 
     fetch("/messages", {
       method: "DELETE",

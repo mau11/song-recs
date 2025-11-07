@@ -12,16 +12,15 @@
   <ul class="messages">
   <% for(var i=0; i<messages.length; i++) {%>
     <li class="message">
-      <p class="username"><%= messages[i].username %></p>
       <% const videoId = messages[i].message.split('v=')[1] %>
-        <iframe width="300" height="169"
-          src="https://www.youtube.com/embed/<%= videoId %>"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-        <p class="message-text"><%= messages[i].message %></p>
-        <p class="message-date"><%= new Date(messages[i].createdAt).toLocaleDateString() %></p>
+      <iframe width="300" height="169" data-song="<%= messages[i].message %>"
+        src="https://www.youtube.com/embed/<%= videoId %>"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+      <p class="username"><%= messages[i].username %></p>
+      <p class="message-date"><%= new Date(messages[i].createdAt).toLocaleDateString() %></p>
       <div>
         <span><%= messages[i].thumbUp %></span>
         <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
