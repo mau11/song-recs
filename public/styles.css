@@ -1,6 +1,7 @@
 :root {
   --trueBlack: rgba(0, 0, 0, 0.75);
   --black: rgba(51, 51, 51, 1);
+  --blackOp: rgba(51, 51, 51, 0.7);
   --white: rgba(246, 246, 246, 1);
   --accent: rgba(223, 34, 97, 1);
   --3d-effect: -webkit-linear-gradient(
@@ -34,6 +35,11 @@ h1 {
   margin: 0 -5vw 0.25em;
   padding: 1em 5vw;
   background-image: var(--3d-effect);
+
+  a {
+    text-decoration: none;
+    color: var(--white);
+  }
 }
 
 main {
@@ -44,43 +50,6 @@ form {
   display: flex;
   gap: 1em;
   margin: 2em 0;
-}
-
-.songs {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2em;
-  margin: 2em 0 0 -5vw;
-  width: calc(100% + 10vw);
-  background-color: var(--black);
-  padding: 3em 0;
-
-  article {
-    padding: 1em;
-    border-radius: 0.5em;
-    margin: auto;
-    background-color: var(--white);
-    box-shadow: 0px 0px 24px 2px var(--trueBlack);
-    background-image: var(--3d-effect);
-  }
-
-  .thumb-count {
-    margin: 8px 0 4px;
-  }
-
-  .message-date {
-    font-size: small;
-    font-style: italic;
-  }
-
-  .fa:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-  }
-
-  .fa:active {
-    transform: scale(0.98);
-  }
 }
 
 input {
@@ -125,6 +94,57 @@ input:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 6px var(--accent);
+}
+
+.sort-buttons {
+  display: flex;
+  gap: 1em;
+  margin-top: 0.5em;
+
+  .true {
+    font-weight: 600;
+  }
+
+  .false {
+    color: var(--blackOp);
+  }
+}
+
+.songs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2em;
+  margin: 1em 0 0 -5vw;
+  width: calc(100% + 10vw);
+  background-color: var(--black);
+  padding: 3em 0;
+
+  article {
+    padding: 1em;
+    border-radius: 0.5em;
+    margin: auto;
+    background-color: var(--white);
+    box-shadow: 0px 0px 24px 2px var(--trueBlack);
+    background-image: var(--3d-effect);
+  }
+
+  .thumb-count {
+    margin: 8px 0 4px;
+  }
+
+  .message-date {
+    font-size: small;
+    font-style: italic;
+  }
+
+  .fa:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+
+  .fa:active {
+    transform: scale(0.98);
+  }
 }
 
 footer {

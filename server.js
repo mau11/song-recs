@@ -39,9 +39,32 @@ app.use(express.static("public"));
 // get home page
 app.get("/", async (req, res) => {
   try {
-    const songs = await Song.find();
+    const sortBy = req.query.sort || "newest";
+    let sortOption = {};
 
-    res.render("index.ejs", { songs });
+    switch (sortBy) {
+      case "newest":
+        sortOption = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortOption = { createdAt: 1 };
+        break;
+      case "highest":
+        sortOption = { thumbUp: -1 };
+        break;
+      case "lowest":
+        sortOption = { thumbUp: 1 };
+        break;
+      case "username":
+        sortOption = { username: 1 };
+        break;
+      default:
+        sortOption = { createdAt: -1 }; // newest first
+    }
+
+    const songs = await Song.find().sort(sortOption);
+
+    res.render("index.ejs", { songs, sortBy });
   } catch (err) {
     console.log(err);
   }

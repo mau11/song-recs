@@ -5,7 +5,7 @@ const songSchema = mongoose.Schema(
   {
     username: String,
     song: String,
-    thumbUp: String,
+    thumbUp: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
