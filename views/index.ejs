@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Song Recs</title>
+  <title>song-recs</title>
   <link rel="shortcut icon" href="favicon.ico">
   <link rel="stylesheet" href="font-awesome.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Song Recs</h1>
+  <h1>song-recs</h1>
   <main>
     <h3 class="subtext">Add a song recommendation below:</h3>
 
@@ -18,9 +18,9 @@
       <button type="submit">Submit</button>
     </form>
 
-    <ul class="songs">
+    <section class="songs">
     <% for(var i=0; i<songs.length; i++) {%>
-      <li class="song">
+      <article class="song">
         <% const videoId = songs[i].song.split('v=')[1] %>
         <iframe width="300" height="169" data-song="<%= songs[i].song %>"
           src="https://www.youtube.com/embed/<%= videoId %>"
@@ -35,9 +35,9 @@
           <span><i class="fa fa-trash" aria-hidden="true"></i></span>
         </section>
         <p class="message-date">added on <span><%= new Date(songs[i].createdAt).toLocaleDateString() %></span> by <%= songs[i].username %></p>
-      </li>
+      </article>
     <% } %>
-    </ul>
+    </section>
   </main>
 
   <footer>
@@ -47,10 +47,10 @@
       rel="noopener noreferrer"
       aria-label="Visit Song Recs GitHub Repository"
     >
-      <p>
+      <span>
         created by mau
         <img src="/images/github-mark.png" alt="GitHub Logo" />
-      </p>
+      </span>
     </a>
   </footer>
 

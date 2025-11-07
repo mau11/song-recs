@@ -25,7 +25,6 @@ body {
   margin: auto;
   color: var(--black);
   background-color: var(--white);
-  padding-bottom: 4em;
 }
 
 h1 {
@@ -51,18 +50,18 @@ form {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 2em;
-  list-style: none;
   margin: 2em 0 0 -5vw;
   width: calc(100% + 10vw);
   background-color: var(--black);
   padding: 3em 0;
 
-  li {
+  article {
     padding: 1em;
     border-radius: 0.5em;
     margin: auto;
     background-color: var(--white);
     box-shadow: 0px 0px 24px 2px var(--trueBlack);
+    background-image: var(--3d-effect);
   }
 
   .thumb-count {
@@ -85,6 +84,7 @@ button,
   padding: 0.5rem;
   border-radius: 4px;
   font-size: unset;
+  border: 0.5px solid var(--black);
 }
 
 button,
@@ -112,24 +112,30 @@ button:focus,
   transform: scale(0.98);
 }
 
-input:focus,
-select:focus {
+input:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 6px var(--accent);
 }
 
 footer {
+  display: flex;
+  justify-content: end;
+  background-image: var(--3d-effect);
+  margin-left: -10vw;
+  width: calc(100% + 15vw);
+
   a {
     text-decoration: none;
+    margin-right: 2em;
   }
 
-  p {
+  span {
     display: flex;
     align-items: center;
     justify-content: end;
     gap: 4px;
-    margin-top: 1em;
+    margin: 2em 0;
   }
 
   img {
